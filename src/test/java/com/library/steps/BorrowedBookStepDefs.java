@@ -25,14 +25,20 @@ public class BorrowedBookStepDefs {
     @When("the librarian gets borrowed books number")
     public void the_librarian_gets_borrowed_books_number() {
 
+        //Create Connection
         DB_Util.createConnection();
 
+        //make query
         String query = "select count(*) from book_borrow\n" +
                 "where is_returned = 0";
-        DB_Util.runQuery(query);
-        expectedBarrowBooks = DB_Util.getFirstRowFirstColumn();
-        System.out.println("expectedBarrowBooks = " + expectedBarrowBooks);
 
+        DB_Util.runQuery(query); // Run query
+
+        //Get the query information
+        expectedBarrowBooks = DB_Util.getFirstRowFirstColumn();
+        System.out.println("expectedBarrowBooks = " + expectedBarrowBooks); // Print what we have
+
+        //Get actualBook number from UI
         actualBarrowBooks = dashBoardPage.borrowedBooksNumber.getText();
 
         BrowserUtil.waitFor(3);
@@ -43,6 +49,7 @@ public class BorrowedBookStepDefs {
     @Then("borrowed books number information must match with DB")
     public void borrowed_books_number_information_must_match_with_db() {
 
+        //Compare exp vs act
         Assert.assertEquals(expectedBarrowBooks,actualBarrowBooks);
     }
 
